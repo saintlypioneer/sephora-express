@@ -20,7 +20,7 @@ router.post('/login', async(req, res)=>{
 	    pass: rcvData.pass,
     });
     if (data.length >= 1){
-        res.send({"status": "ok"})
+        res.send({"status": "ok", "data": data[0]})
     }
     else{
         res.status(401).send({"status": "error"});
