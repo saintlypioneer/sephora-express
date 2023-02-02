@@ -7,7 +7,8 @@ const userSchema = new mongoose.Schema({
 	phone: String,
 	birth_month: String,
 	birth_day: String,
-	zip: String
+	zip: String,
+	is_verified: Boolean
 }, {timestamps: true})
 
 module.exports = mongoose.model("Users", userSchema);

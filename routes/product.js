@@ -57,6 +57,10 @@ router.post("/filtered_products", async (req, res) => {
         brandFilters.push({ brand_name: e });
       });
       filter.push({ $or: brandFilters });
+    } else if (item.type == "Sale") {
+      filter.push({
+        is_sale: true,
+      });
     } else if (item.type == "New") {
       filter.push({
         is_new: true,
@@ -68,17 +72,26 @@ router.post("/filtered_products", async (req, res) => {
           { list_price: { $lte: item.value[1] } },
         ],
       });
+    } else if (item.type == "Product Type") {
+      filter.push({
+        product_type: item.value,
+      });
     } else {
       // IGNORE
       console.log("INVALID TYPE: ", item.type);
     }
   });
-  const product_details = await Products.find({$and: filter}).skip(offset).limit(count);
+  const product_details = await Products.find({ $and: filter })
+    .skip(offset)
+    .limit(count);
   res.send(product_details);
 });
 
 router.post("/product", async (req, res) => {
   const rcvData = req.body.product_data;
+  if (!rcvData.brand_name) {
+    res.status(400).send({ error: "Enter a valid product" });
+  }
   const product_details = await Products.create(rcvData);
   console.log(product_details);
   res.send(product_details);

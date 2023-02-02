@@ -17,7 +17,9 @@ const productSchema = new mongoose.Schema({
 	is_best: Boolean,
 	is_organic: Boolean,
 	is_natural: Boolean,
-	sku_id: String
+	sku_id: String,
+	is_sale: Boolean,
+	product_type: String
 }, {timestamps: true});
 
 module.exports = mongoose.model("Products", productSchema);
